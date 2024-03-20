@@ -1,10 +1,18 @@
+import { useAuth } from "@/context/authContext";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function TabOneScreen() {
+  const { authState, onLogout } = useAuth();
+
+  const onSignOutPress = async () => {
+    onLogout!();
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      {/* <Text style={styles.title}>Tab One</Text> */}
+      <Text style={styles.title}>Role: {authState?.role}</Text>
+      <Button title="Logout" onPress={onSignOutPress} />
       <View style={styles.separator} />
     </View>
   );

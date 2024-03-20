@@ -1,7 +1,8 @@
-import { AuthProvider } from "@/context/authContext";
+import { AuthProvider, useAuth } from "@/context/authContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";
+import { router, useSegments } from "expo-router";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -48,6 +49,18 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const { authState } = useAuth();
+  const segments = useSegments();
+
+  useEffect(() => {
+    const inAuthGroup = segments[0] === "(protected)";
+    console.log("auth state changed", authState);
+    if (!authState?.authenticated && inAuthGroup) {
+      router.replace("/");
+    } else if (authState?.authenticated === true) {
+      router.replace("/(protected)");
+    }
+  }, [authState]);
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />

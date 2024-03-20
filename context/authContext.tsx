@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const login = (username: string, password: string) => {
+    console.log("Logging in", authState);
     if (username === "admin" && password === "admin") {
       setAuthState({
         authenticated: true,

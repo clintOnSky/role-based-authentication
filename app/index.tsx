@@ -8,14 +8,21 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { AuthContext, useAuth } from "@/context/authContext";
+import React, { useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 const Home = () => {
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin");
 
   const { onLogin } = useAuth();
+
+  const onSignInPress = async () => {
+    onLogin!(username, password);
+  };
+  const onUserSignInPress = async () => {
+    onLogin!("user", "user");
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -36,11 +43,11 @@ const Home = () => {
           secureTextEntry
           style={styles.input}
         />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => onLogin!(username, password)}
-        >
-          <Text style={styles.buttonTxt}>Submit</Text>
+        <TouchableOpacity style={styles.button} onPress={onSignInPress}>
+          <Text style={styles.buttonTxt}>Sign In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={onUserSignInPress}>
+          <Text style={styles.buttonTxt}>Sign In as User</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
