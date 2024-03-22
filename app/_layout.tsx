@@ -1,11 +1,14 @@
-import { AuthProvider, useAuth } from "@/context/authContext";
+import { AuthProvider, Role, useAuth } from "@/context/auth";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";
 import { router, useSegments } from "expo-router";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -14,7 +17,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "index",
+  initialRouteName: "(index)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -49,23 +52,47 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const { authState } = useAuth();
   const segments = useSegments();
+  console.log("🚀 ~ RootLayoutNav ~ segments:", segments);
+  const inAuthGroup = segments[0] !== "(protected)";
+  const { auth } = useAuth();
+
+  // if (true) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: "red",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //       }}
+  //     >
+  //       <ActivityIndicator />
+  //     </View>
+  //   );
+  // }
 
   useEffect(() => {
-    const inAuthGroup = segments[0] === "(protected)";
-    console.log("auth state changed", authState);
-    if (!authState?.authenticated && inAuthGroup) {
-      router.replace("/");
-    } else if (authState?.authenticated === true) {
-      router.replace("/(protected)");
-    }
-  }, [authState]);
+    const checkAuth = () => {
+      if (!auth?.user && !inAuthGroup) {
+        console.log("Not authenticated but in group, ");
+        router.replace("/");
+      } else if (auth?.user) {
+        console.log("Authenticated");
+        router.replace("/(protected)/(tabs)/one");
+      }
+    };
+    checkAuth();
+  }, [auth]);
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen name="(protected)" />
-    </Stack>
-    // <Stack />
+    <>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar style="dark" />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(protected)" />
+        </Stack>
+      </SafeAreaView>
+    </>
   );
 }

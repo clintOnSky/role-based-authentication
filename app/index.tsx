@@ -9,20 +9,26 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/context/auth";
 
 const Home = () => {
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("admin");
 
-  const { onLogin } = useAuth();
+  const { onLogin, onSignup } = useAuth();
 
-  const onSignInPress = async () => {
+  const onSignInPress = () => {
     onLogin!(username, password);
   };
+
+  const onSignUpPress = async () => {
+    onSignup!(username, password);
+  };
+
   const onUserSignInPress = async () => {
     onLogin!("user", "user");
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
