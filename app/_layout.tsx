@@ -1,4 +1,4 @@
-import { AuthProvider, useAuth } from "@/context/jwtAuthContext";
+import { AuthProvider, useAuth } from "@/context/authContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";
@@ -54,7 +54,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const segments = useSegments();
   const inAuthGroup = segments[0] !== "(protected)";
-  const { authState } = useAuth();
+  // const { authState } = useAuth();
 
   // if (true) {
   //   return (
@@ -84,14 +84,12 @@ function RootLayoutNav() {
   //   checkAuth();
   // }, [authState]);
   return (
-    <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar style="dark" />
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="(protected)" />
-        </Stack>
-      </SafeAreaView>
-    </>
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar style="dark" />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(protected)" />
+      </Stack>
+    </SafeAreaView>
   );
 }

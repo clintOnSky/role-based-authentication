@@ -1,4 +1,4 @@
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/tutorial/context/authContext";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 

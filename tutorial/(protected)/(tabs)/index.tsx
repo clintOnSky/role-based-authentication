@@ -1,5 +1,5 @@
 import { WithRole } from "@/components/WithRole";
-import { Role, useAuth } from "@/context/authContext";
+import { Role, useAuth } from "@/tutorial/context/authContext";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 

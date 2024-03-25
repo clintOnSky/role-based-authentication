@@ -1,4 +1,4 @@
-import { AuthProvider, useAuth } from "@/context/authContext";
+import { AuthProvider, useAuth } from "@/tutorial/context/authContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";

@@ -1,4 +1,4 @@
-import { Role, useAuth } from "@/context/auth";
+import { Role, useAuth } from "@/tutorial/context/auth";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 

@@ -9,24 +9,22 @@ import {
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { useAuth } from "@/context/auth";
+import { useAuth } from "@/context/authContext";
 
 const Home = () => {
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const { onLogin, onSignup } = useAuth();
+  const { onLogin, onRegister } = useAuth();
 
-  const onSignInPress = () => {
-    onLogin!(username, password);
+  const onSignInPress = async () => {
+    await onLogin!(email, password);
   };
 
-  const onSignUpPress = async () => {
-    onSignup!(username, password);
-  };
-
-  const onUserSignInPress = async () => {
-    onLogin!("user", "user");
+  const onRegisterPress = async () => {
+    onRegister!(email, password).then(() => {
+      onLogin!(email, password);
+    });
   };
 
   return (
@@ -37,9 +35,9 @@ const Home = () => {
       <Text style={styles.title}>My Auth</Text>
       <View style={styles.form}>
         <TextInput
-          placeholder="Enter username"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="Enter email"
+          value={email}
+          onChangeText={setEmail}
           style={styles.input}
         />
         <TextInput
@@ -52,8 +50,8 @@ const Home = () => {
         <TouchableOpacity style={styles.button} onPress={onSignInPress}>
           <Text style={styles.buttonTxt}>Sign In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onUserSignInPress}>
-          <Text style={styles.buttonTxt}>Sign In as User</Text>
+        <TouchableOpacity style={styles.button} onPress={onRegisterPress}>
+          <Text style={styles.buttonTxt}>Register</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

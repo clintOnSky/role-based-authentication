@@ -4,7 +4,7 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Constant from "expo-constants";
-import { Role, useAuth } from "@/context/authContext";
+import { Role, useAuth } from "@/tutorial/context/authContext";
 
 const HEIGHT = Constant.statusBarHeight;
 

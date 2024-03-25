@@ -1,4 +1,4 @@
-import { Role, useAuth } from "@/context/authContext";
+import { Role, useAuth } from "@/tutorial/context/authContext";
 import React from "react";
 
 interface WithRoleProps {

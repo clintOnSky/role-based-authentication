@@ -1,5 +1,5 @@
 import React from "react";
-import { Role, useAuth } from "@/context/auth";
+import { Role, useAuth } from "@/tutorial/context/auth";
 
 const WithAccess = ({
   role,
