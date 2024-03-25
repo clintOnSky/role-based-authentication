@@ -1,4 +1,4 @@
-import { AuthProvider, Role, useAuth } from "@/context/auth";
+import { AuthProvider, useAuth } from "@/context/jwtAuthContext";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useFonts } from "expo-font";
@@ -53,9 +53,8 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const segments = useSegments();
-  console.log("🚀 ~ RootLayoutNav ~ segments:", segments);
   const inAuthGroup = segments[0] !== "(protected)";
-  const { auth } = useAuth();
+  const { authState } = useAuth();
 
   // if (true) {
   //   return (
@@ -67,23 +66,23 @@ function RootLayoutNav() {
   //         justifyContent: "center",
   //       }}
   //     >
-  //       <ActivityIndicator />
+  //       <ActivityIndicator size={40} />
   //     </View>
   //   );
   // }
 
-  useEffect(() => {
-    const checkAuth = () => {
-      if (!auth?.user && !inAuthGroup) {
-        console.log("Not authenticated but in group, ");
-        router.replace("/");
-      } else if (auth?.user) {
-        console.log("Authenticated");
-        router.replace("/(protected)/(tabs)/one");
-      }
-    };
-    checkAuth();
-  }, [auth]);
+  // useEffect(() => {
+  //   const checkAuth = () => {
+  //     if (!authState?.user && !inAuthGroup) {
+  //       console.log("Not authenticated but in group, ");
+  //       router.replace("/");
+  //     } else if (authState?.user) {
+  //       console.log("Authenticated");
+  //       router.replace("/(protected)/(tabs)/one");
+  //     }
+  //   };
+  //   checkAuth();
+  // }, [authState]);
   return (
     <>
       <SafeAreaView style={{ flex: 1 }}>
