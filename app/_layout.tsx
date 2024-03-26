@@ -54,35 +54,20 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const segments = useSegments();
   const inAuthGroup = segments[0] !== "(protected)";
-  // const { authState } = useAuth();
+  const { authState } = useAuth();
 
-  // if (true) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: "red",
-  //         alignItems: "center",
-  //         justifyContent: "center",
-  //       }}
-  //     >
-  //       <ActivityIndicator size={40} />
-  //     </View>
-  //   );
-  // }
-
-  // useEffect(() => {
-  //   const checkAuth = () => {
-  //     if (!authState?.user && !inAuthGroup) {
-  //       console.log("Not authenticated but in group, ");
-  //       router.replace("/");
-  //     } else if (authState?.user) {
-  //       console.log("Authenticated");
-  //       router.replace("/(protected)/(tabs)/one");
-  //     }
-  //   };
-  //   checkAuth();
-  // }, [authState]);
+  const navigate = () => {
+    if (authState?.token) {
+      router.replace("/(protected)/(tabs)/one");
+    } else if (!authState?.token && !inAuthGroup) {
+      router.replace("/(auth)/login");
+    } else if (authState?.token && inAuthGroup) {
+      router.replace("/(protected)/(tabs)/one");
+    }
+  };
+  useEffect(() => {
+    navigate();
+  }, [authState]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="dark" />

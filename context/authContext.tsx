@@ -38,7 +38,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const loadToken = () => {
       const token = SecureStore.getItem(TOKEN_KEY);
       if (token) {
+        console.log("🚀 ~ loadToken ~ token:", token);
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        setAuthState({
+          token,
+          authenticated: true,
+          role: Role.ADMIN,
+        });
       }
     };
     loadToken();
@@ -52,8 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       return response.data;
     } catch (e: any) {
-      console.log(e);
-      alert(e.message);
+      console.log(e.response?.data.msg);
       return { error: true, msg: e.response.data.msg };
     }
   };
@@ -79,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(response?.data);
       return response;
     } catch (e: any) {
-      console.log(e);
+      console.log(e.response?.data.msg);
       alert(e.response.data.msg);
       return { error: true, msg: e.response.data.msg };
     }
@@ -95,21 +100,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     SecureStore.deleteItemAsync(TOKEN_KEY);
   };
 
-  const fetchUsers = async () => {
-    console.log("fetch user called");
-    try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      console.log(response?.data[0]);
-    } catch (e: any) {
-      console.log("Error", e?.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
   const value = {
     authState,
     onRegister,
